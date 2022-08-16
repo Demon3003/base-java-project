@@ -25,10 +25,23 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         user.setRegistrationDate(new Date());
         userRepository.save(user);
         log.debug("DMZH TEST: {}", user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        userRepository.save(user);
+        log.debug("DMZH TEST: {}", user);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable("id") BigInteger id) {
+        userRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 

@@ -33,6 +33,8 @@ public class User {
 
     private Date registrationDate;
 
+    private String token;
+
     @Column(name = "status_id")
     @Enumerated(value = EnumType.ORDINAL)
     private Status status;
