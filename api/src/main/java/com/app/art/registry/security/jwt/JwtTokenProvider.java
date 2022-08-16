@@ -29,10 +29,10 @@ public class JwtTokenProvider {
     @Value("${jwt.secret.refresh}")
     private String secretRefreshKey;
 
-    @Value("${access.token.expiration}")
+    @Value("${access.token.expiration.min}")
     private long accessTokeValidityInMinutes;
 
-    @Value("${refresh.token.expiration}")
+    @Value("${refresh.token.expiration.min}")
     private long refreshTokeValidityInMinutes;
 
     private UserDetailsService userDetailsService;
