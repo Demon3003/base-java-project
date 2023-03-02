@@ -1,6 +1,6 @@
 package com.app.art.registry.controllers.authorization;
 
-import com.app.art.registry.dto.jwt.JwtResponse;
+import com.app.art.registry.dto.jwt.JwtResponseDto;
 import com.app.art.registry.security.jwt.JwtTokenProvider;
 import com.app.art.registry.model.user.User;
 import com.app.art.registry.repo.UserRepository;
@@ -35,7 +35,7 @@ public class AuthorizationController {
         User usr = userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usr.getLogin(), usr.getPassword()));
         Pair<String, String> tokens = jwtTokenProvider.createAccessAndRefreshTokens(usr.getLogin());
-        return ResponseEntity.ok(JwtResponse.builder()
+        return ResponseEntity.ok(JwtResponseDto.builder()
                 .login(usr.getLogin())
                 .accessToken(tokens.getFirst())
                 .refreshToken(tokens.getSecond())
@@ -48,7 +48,7 @@ public class AuthorizationController {
         String login = jwtTokenProvider.getUsernameFromRefreshToken(token);
         User usr = userRepository.findByEmailOrLogin(login, login).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
         Pair<String, String> tokens = jwtTokenProvider.createAccessAndRefreshTokens(usr.getLogin());
-        return ResponseEntity.ok(JwtResponse.builder()
+        return ResponseEntity.ok(JwtResponseDto.builder()
                 .login(usr.getLogin())
                 .accessToken(tokens.getFirst())
                 .refreshToken(tokens.getSecond())

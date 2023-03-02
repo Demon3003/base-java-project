@@ -1,6 +1,9 @@
 package com.app.art.registry.model.user;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -18,17 +21,15 @@ public class Role {
 
     private String name;
 
-    @ManyToMany
+    @Fetch(value = FetchMode.SELECT) // SELECT we use for LAZY  fetchType
+    @BatchSize(size = 4) // this annotation should be used with LAZY fetchType.
+    @ManyToMany         // It tells hibernate to load "permissions" objects not only for current object when we call getter but also for 4 other Role objects (if we have others objects in context)
     @JoinTable(
         name = "role_permission",
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
     private Set<Permission> permissions;
-
-    Role(Set<Permission> permissions) {
-        this.permissions = permissions;
-    }
 
     public Set<Permission> getAuthorities() {
         return this.permissions;

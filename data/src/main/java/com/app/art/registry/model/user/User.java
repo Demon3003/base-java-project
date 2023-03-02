@@ -1,6 +1,9 @@
 package com.app.art.registry.model.user;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -39,6 +42,7 @@ public class User {
     @Enumerated(value = EnumType.ORDINAL)
     private Status status;
 
+    @Fetch(value = FetchMode.JOIN) // JOIN and SUBSELECT we use for EAGER  fetchType
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

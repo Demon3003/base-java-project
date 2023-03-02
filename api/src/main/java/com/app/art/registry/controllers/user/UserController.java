@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * REST controller to manage data about users.
+ * @author dimazhuravlyov
  * */
 @Slf4j
 @RestController
