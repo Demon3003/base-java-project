@@ -3,6 +3,7 @@ package com.app.art.registry.repo;
 import com.app.art.registry.model.user.DateAndImage;
 import com.app.art.registry.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -27,4 +28,8 @@ public interface UserRepository extends JpaRepository<User, BigInteger> {
 
     @Query("select new com.app.art.registry.model.user.DateAndImage(u.registrationDate, u.image) from User u where u.id = ?1")
     DateAndImage findUserRegistrationDateAndImage(BigInteger userId);
+
+    @Query("update User u set u.image = :img where u.id = :userId")
+    @Modifying // Need to use this annotation when ypu modify data
+    void updateUserImage(@Param("userId") BigInteger userId, @Param("img") String img);
 }
