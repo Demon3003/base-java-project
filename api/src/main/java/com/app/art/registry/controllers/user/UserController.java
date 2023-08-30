@@ -51,6 +51,16 @@ public class UserController {
         return ResponseEntity.ok(userRepository.findById(id).get());
     }
 
+    /**
+     * RSET endpoint to test functionality of the
+     * @see  com.app.art.registry.converters.UserRestConverter
+     * example of a request: http://localhost:8086/api/user/get/new/?user=Dmytro
+     * */
+    @GetMapping("/get/new/")
+    public ResponseEntity<User> getUserNew(User user) {
+        return ResponseEntity.ok(userRepository.findByLogin(user.getLogin()).get());
+    }
+
     @GetMapping("/getAllActiveFrom/{date}")
     public ResponseEntity<List<User>> getUser(@PathVariable("date") Long activeFrom) {
         log.debug("Active from date: {}", new Date(1644463162597L));

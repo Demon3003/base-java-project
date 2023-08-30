@@ -20,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, BigInteger> {
 
     Optional<User> findByEmailOrLogin(String email, String login);
 
+    Optional<User> findByLogin(String login);
+
     @Query("select u.image from User u where u.id = :userId")
     String findUserImage(@Param("userId") BigInteger userId);
 

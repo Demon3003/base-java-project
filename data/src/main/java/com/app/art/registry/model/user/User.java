@@ -1,9 +1,13 @@
 package com.app.art.registry.model.user;
 
-import lombok.*;
-import org.hibernate.annotations.BatchSize;
+import com.app.art.registry.model.converter.user.UserNameConverter;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -26,6 +30,9 @@ public class User {
 
     private String lastName;
 
+    //    @Convert(converter = UserNameConverter.class)
+    //    private UserName lastName;
+
     private String login;
 
     private String password;
@@ -37,6 +44,10 @@ public class User {
     private Date registrationDate;
 
     private String token;
+
+    public User(BigInteger id) {
+        this.id = id;
+    }
 
     @Column(name = "status_id")
     @Enumerated(value = EnumType.ORDINAL)
@@ -68,7 +79,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", registrationDate=" + registrationDate +
                 ", status=" + status +
-                ", role=" + role +
+                ", role=" + role.getName() +
                 '}';
     }
 }

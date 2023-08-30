@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .and()
             .authorizeRequests()
             .antMatchers("/login").permitAll()
-                .antMatchers("/logout").permitAll()
+            .antMatchers("/logout").permitAll()
             .antMatchers("/*").permitAll()
             .antMatchers("/refreshToken").permitAll()
             .anyRequest()
