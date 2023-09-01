@@ -20,7 +20,7 @@ public class Permission implements GrantedAuthority {
     @Column(name = "permission_name")
     private String permission;
 
-    @Transient // to ignore field for hiber
+    @Transient // to ignore field for hibernate
     private String comment;
 
     Permission(String permission) {

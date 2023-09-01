@@ -1,7 +1,9 @@
 package com.app.art.registry.controllers.user;
 
+import com.app.art.registry.dto.user.UserDto;
 import com.app.art.registry.model.user.User;
 import com.app.art.registry.repo.UserRepository;
+import com.app.art.registry.services.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user) {
         user.setRegistrationDate(new Date());
@@ -33,7 +38,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         userRepository.save(user);
         log.debug("DMZH TEST: {}", user);
@@ -47,8 +52,8 @@ public class UserController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") BigInteger id) {
-        return ResponseEntity.ok(userRepository.findById(id).get());
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") BigInteger id) {
+        return ResponseEntity.ok(new UserDto(userService.findById(id)));
     }
 
     /**

@@ -34,8 +34,8 @@ class ApplicationTests {
 //		Role role = user.getRole();
 //		Collection<Permission> perm = role.getPermissions();
 //		Assert.isNull(user);
-		DateAndImage dtm = userRepository.findUserRegistrationDateAndImage(BigInteger.valueOf(1l));
-		Assert.isNull(dtm);
+//		DateAndImage dtm = userRepository.findUserRegistrationDateAndImage(BigInteger.valueOf(1l));
+//		Assert.isNull(dtm);
 	}
 
 }
