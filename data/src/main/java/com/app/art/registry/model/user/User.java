@@ -23,7 +23,8 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "user_generator")
+    @SequenceGenerator(name = "user_generator", schema = "public", sequenceName = "user_seq")
     private BigInteger id;
 
     private String firstName;
