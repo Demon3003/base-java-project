@@ -2,6 +2,7 @@ package com.app.art.registry.repo;
 
 import com.app.art.registry.model.user.DateAndImage;
 import com.app.art.registry.model.user.User;
+import com.app.art.registry.projection.user.UserLightView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +22,15 @@ public interface UserRepository extends JpaRepository<User, BigInteger> {
     Optional<User> findByEmailOrLogin(String email, String login);
 
     Optional<User> findByLogin(String login);
+
+    @Query("select new com.app.art.registry.model.user.User(u.id) from User u where u.firstName like ?1")
+    List<User> findAllByFirstName(String firstName);
+
+    @Query("select u.id as id, u.email as email, u.login as login from User u where u.firstName like ?1")
+    UserLightView findByFirstNameLight(String firstName);
+
+    @Query("select u.id as id, u.email as email, u.login as login from User u where u.firstName like ?1")
+    <T> T findByFirstNameLight(String firstName, Class<T> type);
 
     @Query("select u.image from User u where u.id = :userId")
     String findUserImage(@Param("userId") BigInteger userId);

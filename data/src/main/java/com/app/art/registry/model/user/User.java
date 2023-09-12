@@ -1,17 +1,18 @@
 package com.app.art.registry.model.user;
 
-import com.app.art.registry.model.converter.user.UserNameConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -24,15 +25,12 @@ public class User {
 
     @Id
     @GeneratedValue(generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", schema = "public", sequenceName = "user_seq")
+    @SequenceGenerator(name = "user_generator", schema = "public", sequenceName = "user_seq", allocationSize = 50)
     private BigInteger id;
 
     private String firstName;
 
     private String lastName;
-
-    //    @Convert(converter = UserNameConverter.class)
-    //    private UserName lastName;
 
     private String login;
 
@@ -45,6 +43,12 @@ public class User {
     private Date registrationDate;
 
     private String token;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public User(BigInteger id) {
         this.id = id;
@@ -80,7 +84,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", registrationDate=" + registrationDate +
                 ", status=" + status +
-                ", role=" + role.getName() +
                 '}';
     }
 }
