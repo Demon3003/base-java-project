@@ -33,7 +33,6 @@ public class UserCacheConfig {
 
     @Bean
     public UserCache createUserCache() {
-
         CaffeineCache caffeineCache = new CaffeineCache(userCacheName,
                 Caffeine
                 .newBuilder()

@@ -21,9 +21,9 @@ public class Role {
 
     private String name;
 
-    @Fetch(value = FetchMode.SELECT) // SELECT we use for LAZY  fetchType
-    @BatchSize(size = 4) // this annotation should be used with LAZY fetchType.
-    @ManyToMany         // It tells hibernate to load "permissions" objects not only for current object when we call getter but also for 4 other Role objects (if we have others objects in context)
+//    @Fetch(value = FetchMode.SELECT) // SELECT we use for LAZY  fetchType
+//    @BatchSize(size = 4) // this annotation should be used with LAZY fetchType.
+    @ManyToMany(fetch = FetchType.LAZY)         // It tells hibernate to load "permissions" objects not only for current object when we call getter but also for 4 other Role objects (if we have others objects in context)
     @JoinTable(
         name = "role_permission",
         joinColumns = @JoinColumn(name = "role_id"),

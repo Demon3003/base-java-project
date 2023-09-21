@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('all:write')")
+@PreAuthorize("hasAuthority('all:write') or hasAuthority('sysadm')")
 public class UserController {
 
     @Autowired

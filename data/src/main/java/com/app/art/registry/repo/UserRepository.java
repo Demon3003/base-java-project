@@ -27,7 +27,7 @@ public interface UserRepository extends JpaRepository<User, BigInteger> {
     List<User> findAllByFirstName(String firstName);
 
     @Query("select u.id as id, u.email as email, u.login as login from User u where u.firstName like ?1")
-    UserLightView findByFirstNameLight(String firstName);
+    List<UserLightView> findByFirstNameLight(String firstName);
 
     @Query("select u.id as id, u.email as email, u.login as login from User u where u.firstName like ?1")
     <T> T findByFirstNameLight(String firstName, Class<T> type);

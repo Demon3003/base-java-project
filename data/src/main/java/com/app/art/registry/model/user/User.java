@@ -58,8 +58,8 @@ public class User {
     @Enumerated(value = EnumType.ORDINAL)
     private Status status;
 
-    @Fetch(value = FetchMode.JOIN) // JOIN and SUBSELECT we use for EAGER  fetchType
-    @ManyToOne
+//    @Fetch(value = FetchMode.JOIN) // JOIN and SUBSELECT we use for EAGER  fetchType
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;
 

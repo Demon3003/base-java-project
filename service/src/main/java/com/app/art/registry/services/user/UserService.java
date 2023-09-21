@@ -20,5 +20,5 @@ public interface UserService {
 
     public List<User> findAllByFirstName(String firstName);
 
-    public UserLightView findByFirstNameLight(String firstName);
+    public List<UserLightView> findByFirstNameLight(String firstName);
 }
