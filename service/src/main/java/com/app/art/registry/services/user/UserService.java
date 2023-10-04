@@ -21,4 +21,6 @@ public interface UserService {
     public List<User> findAllByFirstName(String firstName);
 
     public List<UserLightView> findByFirstNameLight(String firstName);
+
+    public User findByIdWithRole(BigInteger id);
 }

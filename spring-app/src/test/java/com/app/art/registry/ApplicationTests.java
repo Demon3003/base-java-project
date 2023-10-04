@@ -19,11 +19,11 @@ class ApplicationTests {
 	void contextLoads() {
 	}
 
-	@Test
-	@Transactional
-	void testRepo() {
-
-
-	}
+//	@Test
+//	@Transactional
+//	void testRepo() {
+//
+//
+//	}
 
 }

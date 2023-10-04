@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -57,5 +59,14 @@ public class UserServicesImpl implements UserService {
 
     public User findById(BigInteger id) {
         return userRepository.findById(id).get();
+    }
+
+    public User findByIdWithRole(BigInteger id) {
+        EntityGraph eg = em.createEntityGraph(User.class);
+        eg.addAttributeNodes("role");
+        return em.find(User.class, id, Collections.singletonMap(
+                "javax.persistence.loadgraph", // also javax.persistence.fetchgraph Only the specified attributes in EnGraph are retrieved from the database. As we are using Hibernate in this tutorial, we can note that in contrast to the JPA specs, attributes statically configured as EAGER are also loaded.
+                eg
+        ));
     }
 }
