@@ -1,12 +1,11 @@
 package com.app.art.registry.model.user;
 
+import com.app.art.registry.converters.user.UserStatusConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,16 +15,19 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@Table(name = "users")
+@SequenceGenerator(name = "user_generator", schema = "public", sequenceName = "user_seq", allocationSize = 50)
+@NamedEntityGraph(name = "g-user-role", attributeNodes =
+    @NamedAttributeNode(value = "role", subgraph = "sub-role-permission"),
+    subgraphs = @NamedSubgraph(name = "sub-role-permission", attributeNodes = @NamedAttributeNode(value = "permissions")))
 public class User {
 
     @Id
     @GeneratedValue(generator = "user_generator")
-    @SequenceGenerator(name = "user_generator", schema = "public", sequenceName = "user_seq", allocationSize = 50)
     private BigInteger id;
 
     private String firstName;
@@ -55,7 +57,7 @@ public class User {
     }
 
     @Column(name = "status_id")
-    @Enumerated(value = EnumType.ORDINAL)
+    @Convert(converter = UserStatusConverter.class)
     private Status status;
 
 //    @Fetch(value = FetchMode.JOIN) // JOIN and SUBSELECT we use for EAGER  fetchType
@@ -64,13 +66,15 @@ public class User {
     private Role role;
 
     public UserDetails getUserDetails() {
+        boolean isActive = Status.ACTIVE.equals(this.getStatus());
         return new org.springframework.security.core.userdetails.User(
-                this.getLogin(), this.getPassword(),
-                this.getStatus().equals(Status.ACTIVE),
-                this.getStatus().equals(Status.ACTIVE),
-                this.getStatus().equals(Status.ACTIVE),
-                this.getStatus().equals(Status.ACTIVE),
-                this.getRole().getAuthorities()
+                this.getLogin(),
+                this.getPassword(),
+                isActive,
+                isActive,
+                isActive,
+                isActive,
+                this.getRole().getPermissions()
         );
     }
 

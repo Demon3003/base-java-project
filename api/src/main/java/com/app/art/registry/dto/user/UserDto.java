@@ -1,14 +1,10 @@
 package com.app.art.registry.dto.user;
 
-import com.app.art.registry.dto.BaseDto;
-import com.app.art.registry.dto.grants.RoleDto;
-import com.app.art.registry.model.user.Role;
 import com.app.art.registry.model.user.Status;
 import com.app.art.registry.model.user.User;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import com.app.art.registry.dto.BaseDto;
+import com.app.art.registry.dto.grants.RoleDto;
 
-import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
 

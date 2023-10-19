@@ -2,7 +2,8 @@ package com.app.art.registry.controllers.user;
 
 import com.app.art.registry.dto.user.UserDto;
 import com.app.art.registry.model.user.User;
-import com.app.art.registry.repo.UserRepository;
+import com.app.art.registry.repo.user.UserRepository;
+import com.app.art.registry.converters.UserRestConverter;
 import com.app.art.registry.services.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class UserController {
 
     /**
      * RSET endpoint to test functionality of the
-     * @see  com.app.art.registry.converters.UserRestConverter
+     * @see  UserRestConverter
      * example of a request: http://localhost:8086/api/user/get/new/?user=Dmytro
      * */
     @GetMapping("/get/new/")

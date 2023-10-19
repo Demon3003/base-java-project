@@ -6,16 +6,18 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
+@SequenceGenerator(name = "permission_generator", sequenceName = "permission_seq", schema = "public", allocationSize = 10)
 public class Permission implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "permission_generator")
+    private BigInteger id;
 
     @Column(name = "permission_name")
     private String permissionName;
@@ -30,6 +32,24 @@ public class Permission implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return permissionName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (!(o instanceof Permission))
+            return false;
+
+        Permission other = (Permission) o;
+
+        return id != null &&
+                id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     @Override

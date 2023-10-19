@@ -1,7 +1,7 @@
 package com.app.art.registry.services.security;
 
 import com.app.art.registry.model.user.User;
-import com.app.art.registry.repo.UserRepository;
+import com.app.art.registry.repo.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

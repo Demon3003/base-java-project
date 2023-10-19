@@ -1,9 +1,9 @@
 package com.app.art.registry.controllers.authorization;
 
 import com.app.art.registry.dto.jwt.JwtResponseDto;
-import com.app.art.registry.security.jwt.JwtTokenProvider;
+import com.app.art.registry.jwt.JwtTokenProvider;
 import com.app.art.registry.model.user.User;
-import com.app.art.registry.repo.UserRepository;
+import com.app.art.registry.repo.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -32,6 +32,7 @@ public class AuthorizationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User user) {
+        //TODO No need to fetch all user. Login and password is enough.
         User usr = userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usr.getLogin(), usr.getPassword()));
         Pair<String, String> tokens = jwtTokenProvider.createAccessAndRefreshTokens(usr.getLogin());

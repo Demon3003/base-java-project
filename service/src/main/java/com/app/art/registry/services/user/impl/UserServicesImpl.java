@@ -2,7 +2,7 @@ package com.app.art.registry.services.user.impl;
 
 import com.app.art.registry.model.user.User;
 import com.app.art.registry.projection.user.UserLightView;
-import com.app.art.registry.repo.UserRepository;
+import com.app.art.registry.repo.user.UserRepository;
 import com.app.art.registry.services.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;

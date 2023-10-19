@@ -3,7 +3,6 @@ package com.app.art.registry.model.post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -26,6 +25,9 @@ public class PostDetails {
 
     @Column(name = "created_by")
     private String createdBy;
+
+    @Column(name = "tags")
+    private String tags;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")

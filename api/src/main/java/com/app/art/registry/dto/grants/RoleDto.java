@@ -1,7 +1,11 @@
 package com.app.art.registry.dto.grants;
 
-import com.app.art.registry.dto.BaseDto;
+import com.app.art.registry.model.user.Permission;
 import com.app.art.registry.model.user.Role;
+import com.app.art.registry.dto.BaseDto;
+
+import java.math.BigInteger;
+import java.util.List;
 
 public class RoleDto extends BaseDto<Role> {
 
@@ -13,11 +17,11 @@ public class RoleDto extends BaseDto<Role> {
         super(new Role());
     }
 
-    public Long getId() {
+    public BigInteger getId() {
         return getPojo().getId();
     }
 
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         getPojo().setId(id);
     }
 
@@ -27,5 +31,13 @@ public class RoleDto extends BaseDto<Role> {
 
     public void setName(String name) {
         getPojo().setName(name);
+    }
+
+    public List<PermissionDto> getPermissions() {
+        return BaseDto.fromPojoCollection(this.getPojo().getPermissions(), PermissionDto.class);
+    }
+
+    public void setPermissions(List<PermissionDto> permissions) {
+        this.getPojo().addPermissions(BaseDto.toPojoCollection(permissions));
     }
 }

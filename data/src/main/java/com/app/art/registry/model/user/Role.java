@@ -1,11 +1,12 @@
 package com.app.art.registry.model.user;
 
-import lombok.*;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Set;
 
 
@@ -13,12 +14,14 @@ import java.util.Set;
 @Setter
 @Getter
 @NoArgsConstructor
+@SequenceGenerator(name = "role_generator", sequenceName = "role_seq", allocationSize = 10, schema = "public")
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(generator = "role_generator")
+    private BigInteger id;
 
+    @Column(name = "name")
     private String name;
 
 //    @Fetch(value = FetchMode.SELECT) // SELECT we use for LAZY  fetchType
@@ -31,8 +34,16 @@ public class Role {
     )
     private Set<Permission> permissions;
 
-    public Set<Permission> getAuthorities() {
+    public Set<Permission> getPermissions() {
         return this.permissions;
+    }
+
+    public void addPermission(Permission permission) {
+        this.permissions.add(permission);
+    }
+
+    public void addPermissions(Collection<Permission> permissions) {
+        this.permissions.addAll(permissions);
     }
 
     @Override
@@ -40,7 +51,6 @@ public class Role {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", permissions=" + permissions +
                 '}';
     }
 }
