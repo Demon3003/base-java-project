@@ -1,6 +1,7 @@
 package com.app.art.registry.model.post;
 
 import com.app.art.registry.model.user.User;
+import com.app.art.registry.projection.post.PostLightExtended;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 import java.math.BigInteger;
 import java.util.Set;
@@ -18,6 +20,17 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @SequenceGenerator(name = "post_seq", sequenceName = "post_sequence", schema = "public", allocationSize = 20)
+@NamedNativeQuery(name = "Post.getPostMainInfo",
+        query = "select id, title, text from post where id = :id",
+        resultSetMapping = "mapping.getPostMainInfo")
+@SqlResultSetMapping(name = "mapping.getPostMainInfo",
+        classes =
+    @ConstructorResult(targetClass = PostLightExtended.class,
+            columns = {
+                @ColumnResult(name = "id"),
+                @ColumnResult(name = "text"),
+                @ColumnResult(name = "title")
+            }))
 public class Post {
 
     @Id

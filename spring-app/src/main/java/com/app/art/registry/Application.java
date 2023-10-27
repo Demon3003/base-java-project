@@ -1,7 +1,11 @@
 package com.app.art.registry;
 
-import com.app.art.registry.model.post.Post;
-import com.app.art.registry.repo.post.PostRepo;
+import com.app.art.registry.model.post.PostComment;
+import com.app.art.registry.model.post.PostDetails;
+import com.app.art.registry.model.user.Role;
+import com.app.art.registry.model.user.User;
+import com.app.art.registry.repo.post.PostRepository;
+import com.app.art.registry.repo.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -11,6 +15,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @SpringBootApplication
 @Slf4j
@@ -18,7 +23,10 @@ public class Application {
 
 
 	@Autowired
-	private PostRepo postRepo;
+	private PostRepository postRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 //
 //	@PersistenceContext
 //	EntityManager em;
@@ -30,8 +38,9 @@ public class Application {
 	@EventListener(ApplicationReadyEvent.class)
 	@Transactional
 	public void run() {
-		String text = postRepo.getPostTextById(BigInteger.valueOf(22L));
-		log.error("DMZH: {}", text);
+//		PostLight text = postRepo.getPostLight(BigInteger.valueOf(22L));
+//		PostLightExtended text = postRepo.getPostMainInfo(BigInteger.valueOf(22L));
+//		log.error("DMZH: {}", pd.get(0));
 	}
 
 }

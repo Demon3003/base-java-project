@@ -3,17 +3,17 @@ package com.app.art.registry.repo.post;
 import com.app.art.registry.model.post.Post;
 import com.app.art.registry.model.post.PostComment;
 import com.app.art.registry.projection.post.PostLight;
+import com.app.art.registry.projection.post.PostLightExtended;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigInteger;
 import java.util.List;
 
-@Repository
-public interface PostRepo extends JpaRepository<Post, BigInteger> {
+public interface PostRepository extends JpaRepository<Post, BigInteger>, PostExtendedRepository {
 
-    PostLight findPostByTitle(String title);
+    PostLightExtended findPostByTitle(String title);
 
     @Query("select p from Post p where p.id in (select pc.id from PostComment pc where pc.id = ?1)")
     Post findPostByCommentId(BigInteger id);
@@ -36,5 +36,12 @@ public interface PostRepo extends JpaRepository<Post, BigInteger> {
     @Query(nativeQuery = true, value = "select id as id, text as text, title as title from post where id = ?1")
     PostLight getPostLight(BigInteger id);
 
+    /**
+     * Here we use NamedNativeQuery inside
+     * @see com.app.art.registry.model.post.Post
+     * with name = Post.getPostMainInfo
+     * */
+    @Query(nativeQuery = true)
+    PostLightExtended getPostMainInfo(@Param("id") BigInteger id);
 
 }

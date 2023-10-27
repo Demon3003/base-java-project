@@ -15,8 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, BigInteger> {
+public interface UserRepository extends JpaRepository<User, BigInteger>, UserExtendedRepository {
+
 
     List<User> findByRegistrationDateAfter(Date afterDate);
 

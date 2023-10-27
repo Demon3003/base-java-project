@@ -36,4 +36,11 @@ public class PostComment {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Override
+    public String toString() {
+        return "PostComment{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }
