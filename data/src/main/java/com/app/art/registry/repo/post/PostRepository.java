@@ -4,14 +4,16 @@ import com.app.art.registry.model.post.Post;
 import com.app.art.registry.model.post.PostComment;
 import com.app.art.registry.projection.post.PostLight;
 import com.app.art.registry.projection.post.PostLightExtended;
+import org.hibernate.jpa.QueryHints;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.persistence.QueryHint;
 import java.math.BigInteger;
 import java.util.List;
 
-public interface PostRepository extends JpaRepository<Post, BigInteger>, PostExtendedRepository {
+public interface PostRepository extends JpaRepository<Post, BigInteger> {
 
     PostLightExtended findPostByTitle(String title);
 
@@ -42,6 +44,8 @@ public interface PostRepository extends JpaRepository<Post, BigInteger>, PostExt
      * with name = Post.getPostMainInfo
      * */
     @Query(nativeQuery = true)
+    @org.springframework.data.jpa.repository.QueryHints({
+            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.app.art.registry.model.post.Post")})
     PostLightExtended getPostMainInfo(@Param("id") BigInteger id);
 
 }

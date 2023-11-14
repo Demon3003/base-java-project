@@ -25,8 +25,5 @@ public class UserRepoTest {
     public void testGetById() {
         log.error("DMZH: {}", userRepository);
         User u = new User(BigInteger.ONE);
-//        testEntityManager.persist(u);
-//        testEntityManager.flush();
-//        assertThat(userRepository.getById(BigInteger.ONE)).isNotEqualTo(new User(BigInteger.ONE));
     }
 }

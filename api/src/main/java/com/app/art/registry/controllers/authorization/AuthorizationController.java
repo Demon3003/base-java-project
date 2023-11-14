@@ -32,7 +32,6 @@ public class AuthorizationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User user) {
-        //TODO No need to fetch all user. Login and password is enough.
         User usr = userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usr.getLogin(), usr.getPassword()));
         Pair<String, String> tokens = jwtTokenProvider.createAccessAndRefreshTokens(usr.getLogin());

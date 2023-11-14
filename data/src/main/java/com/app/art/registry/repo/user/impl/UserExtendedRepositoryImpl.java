@@ -4,7 +4,6 @@ import com.app.art.registry.model.user.User;
 import com.app.art.registry.repo.user.UserExtendedRepository;
 import org.hibernate.Session;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

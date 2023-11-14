@@ -17,6 +17,10 @@ import java.util.Set;
 @SequenceGenerator(name = "role_generator", sequenceName = "role_seq", allocationSize = 10, schema = "public")
 public class Role {
 
+    public Role(BigInteger id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(generator = "role_generator")
     private BigInteger id;

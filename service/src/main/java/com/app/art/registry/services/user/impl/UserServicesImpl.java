@@ -65,7 +65,7 @@ public class UserServicesImpl implements UserService {
         EntityGraph eg = em.createEntityGraph(User.class);
         eg.addAttributeNodes("role");
         return em.find(User.class, id, Collections.singletonMap(
-                "javax.persistence.loadgraph", // also javax.persistence.fetchgraph Only the specified attributes in EnGraph are retrieved from the database. As we are using Hibernate in this tutorial, we can note that in contrast to the JPA specs, attributes statically configured as EAGER are also loaded.
+                "javax.persistence.loadgraph",
                 eg
         ));
     }

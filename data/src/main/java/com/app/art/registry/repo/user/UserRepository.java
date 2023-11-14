@@ -3,20 +3,20 @@ package com.app.art.registry.repo.user;
 import com.app.art.registry.model.user.DateAndImage;
 import com.app.art.registry.model.user.User;
 import com.app.art.registry.projection.user.UserLightView;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import static org.hibernate.jpa.QueryHints.*;
+
+import javax.persistence.QueryHint;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, BigInteger>, UserExtendedRepository {
-
 
     List<User> findByRegistrationDateAfter(Date afterDate);
 
@@ -27,8 +27,14 @@ public interface UserRepository extends JpaRepository<User, BigInteger>, UserExt
 
     Optional<User> findByLogin(String login);
 
-    @Query("select new com.app.art.registry.model.user.User(u.id) from User u where u.firstName like ?1")
+    @QueryHints({
+            @QueryHint(name = HINT_CACHEABLE, value ="true"),
+            @QueryHint(name = HINT_CACHE_REGION, value = "user.findByEmailOrLogin")})
+    @Query("select u from User u where u.firstName like ?1")
     List<User> findAllByFirstName(String firstName);
+
+    @Query("select new com.app.art.registry.model.user.User(u.id) from User u where u.firstName like ?1")
+    List<User> findAllByFirstNameLight(String firstName);
 
     @Query("select u.id as id, u.email as email, u.login as login from User u where u.firstName like ?1")
     List<UserLightView> findByFirstNameLight(String firstName);

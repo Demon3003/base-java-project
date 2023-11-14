@@ -35,7 +35,7 @@ public class UserServiceTest {
 
     @BeforeEach
     public void setUpData() {
-        when(userRepository.save(any())).thenReturn(new User(BigInteger.ONE));
+        when(userRepository.save(any(User.class))).thenReturn(new User(BigInteger.ONE));
     }
 
     @Test

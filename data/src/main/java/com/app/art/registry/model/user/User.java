@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,7 @@ import java.util.Date;
 @NamedEntityGraph(name = "g-user-role", attributeNodes =
     @NamedAttributeNode(value = "role", subgraph = "sub-role-permission"),
     subgraphs = @NamedSubgraph(name = "sub-role-permission", attributeNodes = @NamedAttributeNode(value = "permissions")))
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "main.user")
 public class User {
 
     @Id

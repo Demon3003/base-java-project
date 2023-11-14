@@ -1,5 +1,6 @@
 package com.app.art.registry.controllers.user;
 
+import com.app.art.registry.dto.BaseDto;
 import com.app.art.registry.dto.user.UserDto;
 import com.app.art.registry.model.user.User;
 import com.app.art.registry.repo.user.UserRepository;
@@ -55,6 +56,11 @@ public class UserController {
     @GetMapping("/get/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") BigInteger id) {
         return ResponseEntity.ok(new UserDto(userService.findById(id)));
+    }
+
+    @GetMapping("/getByFirstName")
+    public ResponseEntity<List<UserDto>> findAllByFirstName(@RequestParam("firstName") String name) {
+        return ResponseEntity.ok(BaseDto.fromPojoCollection(userService.findAllByFirstName(name),UserDto.class));
     }
 
     /**
