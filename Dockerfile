@@ -4,7 +4,7 @@ FROM openjdk:11 as dev
 WORKDIR /app
 RUN echo App is ready
 COPY /spring-app/target/base-app.jar .
-ENV SPRING_PROFILES_ACTIVE=prod
+ENV SPRING_PROFILES_ACTIVE=dev
 CMD ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000", "-jar", "base-app.jar"]
 
 
