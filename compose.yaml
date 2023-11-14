@@ -14,7 +14,7 @@ services:
       - "8086:8086"
       - "8000:8000"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.0.103:5432/art-registry
+      SPRING_DATASOURCE_URL: jdbc:postgresql://:5432/art-registry
       SPRING_DATASOURCE_USERNAME: dimazhuravlyov
       SPRING_DATASOURCE_PASSWORD: 1111
 
@@ -30,7 +30,7 @@ services:
         - "8086:8086"
         - "8000:8000"
       environment:
-        SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.0.103:5432/art-registry
+        SPRING_DATASOURCE_URL: jdbc:postgresql://:5432/art-registry
         SPRING_DATASOURCE_USERNAME: dimazhuravlyov
         SPRING_DATASOURCE_PASSWORD: 1111
 
