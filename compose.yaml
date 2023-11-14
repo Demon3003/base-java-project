@@ -1,0 +1,38 @@
+name:
+  base-app-project
+
+services:
+  base-app-dev:
+    image: base-app-img-dev
+    build:
+      context: .
+      target: dev
+    working_dir: /app
+    volumes:
+      - logs-v:/app/logs
+    ports:
+      - "8086:8086"
+      - "8000:8000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.0.103:5432/art-registry
+      SPRING_DATASOURCE_USERNAME: dimazhuravlyov
+      SPRING_DATASOURCE_PASSWORD: 1111
+
+    base-app-prod:
+      image: base-app-img-prod
+      build:
+        context: .
+        target: prod
+      working_dir: /app
+      volumes:
+        - logs-v:/app/logs
+      ports:
+        - "8086:8086"
+        - "8000:8000"
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://192.168.0.103:5432/art-registry
+        SPRING_DATASOURCE_USERNAME: dimazhuravlyov
+        SPRING_DATASOURCE_PASSWORD: 1111
+
+volumes:
+  logs-v:
