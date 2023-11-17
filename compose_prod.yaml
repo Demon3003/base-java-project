@@ -12,11 +12,16 @@ services:
         - logs_prod_v:/app/logs
       ports:
         - "8086:8086"
+      secrets:
+        - db_pass
       environment:
         SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_IP}:5432/art-registry
         SPRING_DATASOURCE_USERNAME: dimazhuravlyov
-        SPRING_DATASOURCE_PASSWORD: ${DB_PASS-1111}
       restart: unless-stopped
 
 volumes:
   logs_prod_v:
+
+secrets:
+  db_pass:
+    environment: "SPRING_DATASOURCE_PASSWORD"
