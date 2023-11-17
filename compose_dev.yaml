@@ -1,0 +1,40 @@
+name:
+  base-app-project-dev
+
+services:
+  base-app-dev:
+    image: base-app-img:dev
+    build:
+      context: .
+      target: dev
+    working_dir: /app
+    volumes:
+      - logs_dev_v:/app/logs
+    networks:
+      - backend
+    ports:
+      - "8087:8086"
+      - "8001:8000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-dev/art-registry
+      SPRING_DATASOURCE_USERNAME: dmytro
+      SPRING_DATASOURCE_PASSWORD: 1111
+    depends_on:
+      - db-dev
+
+  db-dev:
+    image: postgres:12
+    networks:
+      - backend
+    environment:
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_USER: dmytro
+    volumes:
+      - database_dev_v:/var/lib/postgresql/data
+
+networks:
+  backend:
+
+volumes:
+  logs_dev_v:
+  database_dev_v:
