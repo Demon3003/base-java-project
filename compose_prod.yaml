@@ -6,7 +6,7 @@ services:
       image: base-app-img:prod
       build:
         context: .
-        target: ${TARG-prod}
+        target: prod
       working_dir: /app
       volumes:
         - logs_prod_v:/app/logs

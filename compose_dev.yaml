@@ -16,21 +16,33 @@ services:
       - "8087:8086"
       - "8001:8000"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db-dev/art-registry
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-dev/base-app
       SPRING_DATASOURCE_USERNAME: dmytro
-      SPRING_DATASOURCE_PASSWORD: 1111
+    secrets:
+      - datasource_pass_dev
     depends_on:
-      - db-dev
+      db-dev:
+        condition: service_healthy
 
   db-dev:
-    image: postgres:12
+    image: base-app-db:dev
+    build:
+      context: .
+      target: base_app_db
     networks:
       - backend
     environment:
-      POSTGRES_PASSWORD: 1111
       POSTGRES_USER: dmytro
+    secrets:
+      - db_pass_dev
     volumes:
       - database_dev_v:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "/usr/local/bin/pg_healthcheck" ]
+      interval: 5s
+      timeout: 3s
+      retries: 1
+
 
 networks:
   backend:
@@ -38,3 +50,9 @@ networks:
 volumes:
   logs_dev_v:
   database_dev_v:
+
+secrets:
+  db_pass_dev:
+    environment: "POSTGRES_PASSWORD"
+  datasource_pass_dev:
+    environment: "SPRING_DATASOURCE_PASSWORD"
