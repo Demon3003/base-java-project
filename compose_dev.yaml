@@ -20,6 +20,7 @@ services:
       SPRING_DATASOURCE_USERNAME: dmytro
     secrets:
       - datasource_pass_dev
+    restart: unless-stopped
     depends_on:
       db-dev:
         condition: service_healthy
