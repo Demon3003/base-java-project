@@ -2,6 +2,7 @@ package com.app.art.registry.config;
 
 
 import com.app.art.registry.jwt.JwtConfigurer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -29,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtConfigurer jwtConfigurer;
 
-    public SecurityConfiguration(JwtConfigurer jwtConfigurer, UserDetailsService userDetailsService) {
+    public SecurityConfiguration(JwtConfigurer jwtConfigurer, @Qualifier("commonUserDetailsService") UserDetailsService userDetailsService) {
         this.jwtConfigurer = jwtConfigurer;
         this.userDetailsService = userDetailsService;
     }
@@ -42,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need with token
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login").permitAll() // TODO add check for IP address
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/refreshToken").permitAll()
                 .antMatchers("/*").hasAuthority("sysadm")

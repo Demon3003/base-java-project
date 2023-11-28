@@ -9,13 +9,13 @@ import javax.persistence.PersistenceContext;
 import java.math.BigInteger;
 
 @Component
-public class PostRepositoryImpl implements PostExtendedRepository {
+public class PostExtendedRepositoryImpl implements PostExtendedRepository {
 
     @PersistenceContext
     EntityManager em;
 
     @Override
-    public PostDetails fetchPostDetailsById(BigInteger id) {
+    public PostDetails getPostsDetailsById(BigInteger id) {
         PostDetails pd = em.createQuery("from PostDetails pd where pd.id = ?1", PostDetails.class)
                 .setParameter(1, id)
                 .getSingleResult();

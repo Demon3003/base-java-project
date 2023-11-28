@@ -30,6 +30,7 @@ public class JwtTokenFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = ((HttpServletRequest) servletRequest).getHeader(authorizationHeader);
+        //TODO Add token black list
         try {
             if (token != null) {
                 jwtTokenProvider.validateAccessToken(token);

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service("CommonUserDetailsService")
+@Service
 public class CommonUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;

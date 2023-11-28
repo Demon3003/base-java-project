@@ -8,12 +8,14 @@ import org.hibernate.jpa.QueryHints;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.QueryHint;
 import java.math.BigInteger;
 import java.util.List;
 
-public interface PostRepository extends JpaRepository<Post, BigInteger> {
+@Repository
+public interface PostRepository extends JpaRepository<Post, BigInteger>, PostExtendedRepository {
 
     PostLightExtended findPostByTitle(String title);
 
@@ -32,9 +34,13 @@ public interface PostRepository extends JpaRepository<Post, BigInteger> {
     @Query("select p from Post p where ?1 member of p.postComments")
     List<Post> getPostsWithComment(PostComment comment);
 
+    @org.springframework.data.jpa.repository.QueryHints({
+            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.app.art.registry.model.post.Post")})
     @Query(nativeQuery = true, value = "select text from post where id = ?1")
     String getPostTextById(BigInteger id);
 
+    @org.springframework.data.jpa.repository.QueryHints({
+            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.app.art.registry.model.post.Post")})
     @Query(nativeQuery = true, value = "select id as id, text as text, title as title from post where id = ?1")
     PostLight getPostLight(BigInteger id);
 

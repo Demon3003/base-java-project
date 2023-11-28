@@ -30,7 +30,7 @@ public class AuthorizationController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login")     //TODO Add logout. Add token black list
     public ResponseEntity login(@RequestBody User user) {
         User usr = userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usr.getLogin(), usr.getPassword()));

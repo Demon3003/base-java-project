@@ -6,5 +6,5 @@ import java.math.BigInteger;
 
 public interface PostExtendedRepository {
 
-    PostDetails fetchPostDetailsById(BigInteger id);
+    PostDetails getPostsDetailsById(BigInteger id);
 }

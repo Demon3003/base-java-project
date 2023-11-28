@@ -19,7 +19,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users") //TODO Replace magic strings by constants
 @SequenceGenerator(name = "user_generator", schema = "public", sequenceName = "user_seq", allocationSize = 50)
 @NamedEntityGraph(name = "g-user-role", attributeNodes =
     @NamedAttributeNode(value = "role", subgraph = "sub-role-permission"),
