@@ -17,9 +17,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.app</groupId>
-	<artifactId>art-registry</artifactId>
+	<artifactId>base-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>art-registry</name>
+	<name>base-app</name>
 	<description>Registry for art.</description>
 	<properties>
 		<java.version>11</java.version>
