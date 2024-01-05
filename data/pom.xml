@@ -31,9 +31,8 @@
         <dependency>
             <groupId>com.integralblue</groupId>
             <artifactId>log4jdbc-spring-boot-starter</artifactId>
-            <version>LATEST</version>
+            <version>2.0.0</version>
         </dependency>
-
     </dependencies>
 
     <build>
