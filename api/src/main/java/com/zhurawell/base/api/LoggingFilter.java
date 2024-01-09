@@ -1,4 +1,4 @@
-package com.zhurawell.base.security.filters;
+package com.zhurawell.base.api;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -64,9 +64,7 @@ public class UserController {
     }
 
     /**
-     * RSET endpoint to test functionality of the
      * @see  UserRestConverter
-     * example of a request: http://localhost:8086/api/user/get/new/?user=Dmytro
      * */
     @GetMapping("/get/new/")
     public ResponseEntity<User> getUserNew(User user) {
@@ -75,7 +73,6 @@ public class UserController {
 
     @GetMapping("/getAllActiveFrom/{date}")
     public ResponseEntity<List<User>> getUser(@PathVariable("date") Long activeFrom) {
-        log.debug("Active from date: {}", new Date(1644463162597L));
 
         return ResponseEntity.ok(userRepository.findByRegistrationDateAfter(new Date(activeFrom)));
     }
