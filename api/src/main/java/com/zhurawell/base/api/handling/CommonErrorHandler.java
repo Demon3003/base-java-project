@@ -1,6 +1,6 @@
 package com.zhurawell.base.api.handling;
 
-import com.zhurawell.base.security.jwt.JwtAuthenticationException;
+import com.zhurawell.base.api.security.jwt.JwtAuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

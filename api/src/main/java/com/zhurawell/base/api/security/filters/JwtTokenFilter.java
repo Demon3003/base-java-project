@@ -1,7 +1,7 @@
-package com.zhurawell.base.security.filters;
+package com.zhurawell.base.api.security.filters;
 
-import com.zhurawell.base.security.jwt.JwtAuthenticationException;
-import com.zhurawell.base.security.jwt.JwtTokenProvider;
+import com.zhurawell.base.api.security.jwt.JwtAuthenticationException;
+import com.zhurawell.base.api.security.jwt.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

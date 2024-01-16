@@ -1,4 +1,4 @@
-package com.zhurawell.base.security.jwt;
+package com.zhurawell.base.api.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

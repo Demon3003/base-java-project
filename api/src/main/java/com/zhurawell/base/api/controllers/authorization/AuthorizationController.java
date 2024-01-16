@@ -2,7 +2,7 @@ package com.zhurawell.base.api.controllers.authorization;
 
 import com.zhurawell.base.api.dto.jwt.JwtDetailsDto;
 import com.zhurawell.base.data.redis.client.user.UserRedisClient;
-import com.zhurawell.base.security.jwt.JwtTokenProvider;
+import com.zhurawell.base.api.security.jwt.JwtTokenProvider;
 import com.zhurawell.base.data.model.user.User;
 import com.zhurawell.base.data.repo.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;

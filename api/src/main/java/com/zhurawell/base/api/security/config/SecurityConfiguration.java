@@ -1,7 +1,7 @@
-package com.zhurawell.base.security.config;
+package com.zhurawell.base.api.security.config;
 
 
-import com.zhurawell.base.security.jwt.JwtConfigurer;
+import com.zhurawell.base.api.security.jwt.JwtConfigurer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

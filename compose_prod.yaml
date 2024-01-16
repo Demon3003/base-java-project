@@ -1,27 +1,45 @@
 name:
-  base-app-project
+  builder-prod
 
 services:
-  base-app-prod:
+  base-app:
       image: base-app-img:prod
       build:
         context: .
         target: prod
-      working_dir: /app
       volumes:
-        - logs_prod_v:/app/logs
+        - builder_logs_prod_v:/app/logs
       ports:
-        - "8086:8086"
+        - "8080:8080"
       environment:
-        SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_IP-127.0.0.1}:5432/art-registry
-        SPRING_DATASOURCE_USERNAME: dimazhuravlyov
+        POSTGRES_URL: jdbc:postgresql://${POSTGRESS_IP-127.0.0.1:5432}/art-registry
+        POSTGRES_USERNAME: ${POSTGRES_USERNAME-dimazhuravlyov}
+        REDIS_HOST: redis
+        REDIS_PORT: 6379
       secrets:
         - db_pass
+        - redis_pass
       restart: always
+      depends_on:
+        - redis
+
+  redis:
+    image: redis:7.2.3-alpine3.19
+    command: '--requirepass ${REDIS_PASSWORD}'
+    volumes:
+      - builder_redis_v:/data
+    ports:
+      - "6379:6379"
 
 volumes:
-  logs_prod_v:
+  builder_logs_prod_v:
+  builder_redis_v:
+
+networks:
+  builder_app_net:
 
 secrets:
   db_pass:
-    environment: "SPRING_DATASOURCE_PASSWORD"
+    environment: "POSTGRES_PASSWORD"
+  redis_pass:
+    environment: "REDIS_PASSWORD"

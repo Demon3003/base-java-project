@@ -1,4 +1,4 @@
-package com.zhurawell.base.security.jwt;
+package com.zhurawell.base.api.security.jwt;
 
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
