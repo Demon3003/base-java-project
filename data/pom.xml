@@ -3,29 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>base-app</artifactId>
-        <groupId>com.app</groupId>
+        <artifactId>body-builder</artifactId>
+        <groupId>com.zhurawell.app</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>data</artifactId>
 
+    <properties>
+        <log4jdbc.version>2.0.0</log4jdbc.version>
+        <redisson.version>3.19.0</redisson.version>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>2.6.7</version>
         </dependency>
         <dependency>
             <groupId>com.integralblue</groupId>
             <artifactId>log4jdbc-spring-boot-starter</artifactId>
-            <version>2.0.0</version>
+            <version>${log4jdbc.version}</version>
         </dependency>
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-hibernate-53</artifactId>
-            <version>3.19.0</version>
+            <version>${redisson.version}</version>
         </dependency>
     </dependencies>
 

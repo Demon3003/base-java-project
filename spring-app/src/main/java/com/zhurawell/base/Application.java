@@ -18,15 +18,6 @@ public class Application {
 	@Autowired
 	UserRepository userRepository;
 
-//	@Autowired
-//	private PostRepository postRepository;
-//
-//	@Autowired
-//	private UserRepository userRepository;
-////
-//	@PersistenceContext
-//	EntityManager em;
-
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

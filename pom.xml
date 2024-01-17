@@ -12,10 +12,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.app</groupId>
-	<artifactId>base-app</artifactId>
+	<groupId>com.zhurawell.app</groupId>
+	<artifactId>body-builder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>base-app</name>
+	<name>body-builder</name>
 	<description>Registry for art.</description>
 
 	<properties>
@@ -24,6 +24,8 @@
 		<maven.compiler.target>11</maven.compiler.target>
 		<lombok.version>1.18.24</lombok.version>
 		<redis.client.version>5.0.2</redis.client.version>
+		<h2.version>2.2.224</h2.version>
+		<postgresql.driver.version>42.3.4</postgresql.driver.version>
 	</properties>
 
 	<modules>
@@ -59,13 +61,13 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-            <version>2.1.212</version>
+            <version>${h2.version}</version>
             <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-            <version>42.3.4</version>
+            <version>${postgresql.driver.version}</version>
             <scope>runtime</scope>
 		</dependency>
 		<dependency>
