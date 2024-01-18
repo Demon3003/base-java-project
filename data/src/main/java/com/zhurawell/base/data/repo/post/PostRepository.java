@@ -35,12 +35,12 @@ public interface PostRepository extends JpaRepository<Post, BigInteger>, PostExt
     List<Post> getPostsWithComment(PostComment comment);
 
     @org.springframework.data.jpa.repository.QueryHints({
-            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.app.art.registry.model.post.Post")})
+            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.zhurawell.base.registry.model.post.Post")})
     @Query(nativeQuery = true, value = "select text from post where id = ?1")
     String getPostTextById(BigInteger id);
 
     @org.springframework.data.jpa.repository.QueryHints({
-            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.app.art.registry.model.post.Post")})
+            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.zhurawell.base.registry.model.post.Post")})
     @Query(nativeQuery = true, value = "select id as id, text as text, title as title from post where id = ?1")
     PostLight getPostLight(BigInteger id);
 
@@ -51,7 +51,7 @@ public interface PostRepository extends JpaRepository<Post, BigInteger>, PostExt
      * */
     @Query(nativeQuery = true)
     @org.springframework.data.jpa.repository.QueryHints({
-            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.app.art.registry.model.post.Post")})
+            @QueryHint(name = QueryHints.HINT_NATIVE_SPACES, value = "com.zhurawell.base.registry.model.post.Post")})
     PostLightExtended getPostMainInfo(@Param("id") BigInteger id);
 
 }

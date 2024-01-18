@@ -11,14 +11,15 @@ services:
         - builder_logs_prod_v:/app/logs
       ports:
         - "8080:8080"
+      networks:
+        - builder_app_net
       environment:
-        POSTGRES_URL: jdbc:postgresql://${POSTGRESS_IP-127.0.0.1:5432}/art-registry
-        POSTGRES_USERNAME: ${POSTGRES_USERNAME-dimazhuravlyov}
+        POSTGRES_URL: ${POSTGRES_URL-jdbc:postgresql://localhost:5432/body_builder_db}
+        POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         REDIS_HOST: redis
         REDIS_PORT: 6379
-      secrets:
-        - db_pass
-        - redis_pass
+        REDIS_PASSWORD: ${REDIS_PASSWORD}
       restart: always
       depends_on:
         - redis
@@ -30,6 +31,8 @@ services:
       - builder_redis_v:/data
     ports:
       - "6379:6379"
+    networks:
+      - builder_app_net
 
 volumes:
   builder_logs_prod_v:
@@ -37,9 +40,3 @@ volumes:
 
 networks:
   builder_app_net:
-
-secrets:
-  db_pass:
-    environment: "POSTGRES_PASSWORD"
-  redis_pass:
-    environment: "REDIS_PASSWORD"

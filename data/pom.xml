@@ -16,7 +16,6 @@
         <redisson.version>3.19.0</redisson.version>
     </properties>
 
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
