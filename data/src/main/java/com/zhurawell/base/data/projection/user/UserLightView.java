@@ -10,4 +10,8 @@ public interface UserLightView {
 
     String getLogin();
 
+    String getFirstName();
+
+    String getLastName();
+
 }

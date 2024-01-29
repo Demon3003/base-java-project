@@ -1,5 +1,6 @@
 package com.zhurawell.base.api.security.filters;
 
+import com.zhurawell.base.api.exceptions.BaseException;
 import com.zhurawell.base.api.security.jwt.JwtAuthenticationException;
 import com.zhurawell.base.api.security.jwt.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,6 @@ public class JwtTokenFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = ((HttpServletRequest) servletRequest).getHeader(authorizationHeader);
-        //TODO Add token black list
         try {
             if (token != null) {
                 jwtTokenProvider.validateAccessToken(token);
@@ -41,7 +41,7 @@ public class JwtTokenFilter implements Filter {
             log.error("Error during token processing", e);
             SecurityContextHolder.clearContext();
             ((HttpServletResponse) servletResponse).sendError(e.getHttpStatus().value(), e.getMessage());
-        } catch (UsernameNotFoundException e) {
+        } catch (UsernameNotFoundException | BaseException e) {
             log.error("Error during token processing", e);
             SecurityContextHolder.clearContext();
             ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());

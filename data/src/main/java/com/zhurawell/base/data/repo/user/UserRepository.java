@@ -7,13 +7,14 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import static org.hibernate.jpa.QueryHints.*;
-
 import javax.persistence.QueryHint;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static org.hibernate.jpa.QueryHints.HINT_CACHEABLE;
+import static org.hibernate.jpa.QueryHints.HINT_CACHE_REGION;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, BigInteger>, UserExtendedRepository {
@@ -25,11 +26,11 @@ public interface UserRepository extends JpaRepository<User, BigInteger>, UserExt
     @EntityGraph(value = "g-user-role")
     Optional<User> findByEmailOrLogin(String email, String login);
 
-    Optional<User> findByLogin(String login);
+    User findByLogin(String login);
 
     @QueryHints({
             @QueryHint(name = HINT_CACHEABLE, value ="true"),
-            @QueryHint(name = HINT_CACHE_REGION, value = "user.findByEmailOrLogin")})
+            @QueryHint(name = HINT_CACHE_REGION, value = "user.findAllByFirstName")})
     @Query("select u from User u where u.firstName like ?1")
     List<User> findAllByFirstName(String firstName);
 

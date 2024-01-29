@@ -23,4 +23,8 @@ public class UserRedisClient {
         jedis.setex(accessToken, accessTokeValidityInMinutes * MIN_TO_SEC, "");
         jedis.setex(refreshToken, refreshTokeValidityInMinutes * MIN_TO_SEC, "");
     }
+
+    public boolean isPresentInBlackList(String token) {
+        return jedis.exists(token);
+    }
 }

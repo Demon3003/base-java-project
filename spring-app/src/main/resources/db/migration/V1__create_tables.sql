@@ -41,10 +41,8 @@ CREATE TABLE users
     registration_date date DEFAULT now(),
     status_id integer NOT NULL,
     role_id bigint NOT NULL,
-    token character varying(255) COLLATE pg_catalog."default",
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    data json,
     CONSTRAINT user_pkey PRIMARY KEY (id),
     CONSTRAINT user_role_fk FOREIGN KEY (role_id)
         REFERENCES public.role (id) MATCH SIMPLE

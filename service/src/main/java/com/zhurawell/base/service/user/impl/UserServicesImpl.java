@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigInteger;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,13 +28,20 @@ public class UserServicesImpl implements UserService {
     @PersistenceContext
     EntityManager em;
 
+    @Override
     @Transactional
-    public User saveUser(User user) {
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User updateUser(User user) {
         return userRepository.save(user);
     }
 
     @Transactional
-    public List<User> saveAllUsers(List<User> users) {
+    public List<User> createUsers(List<User> users) {
         return userRepository.saveAll(users);
     }
 
@@ -44,9 +52,19 @@ public class UserServicesImpl implements UserService {
         return savedUsers;
     }
 
+    @Override
+    public void deleteById(BigInteger id) {
+        userRepository.deleteById(id);
+    }
+
     @Transactional
     public void deleteAllUsersBatched(List<User> users) {
         userRepository.deleteAllInBatch(users);
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 
     public List<User> findAllByFirstName(String firstName) {
@@ -57,6 +75,7 @@ public class UserServicesImpl implements UserService {
         return userRepository.findByFirstNameLight(firstName);
     }
 
+    @Transactional
     public User findById(BigInteger id) {
         return userRepository.findById(id).get();
     }
@@ -68,5 +87,10 @@ public class UserServicesImpl implements UserService {
                 "javax.persistence.loadgraph",
                 eg
         ));
+    }
+
+    @Override
+    public List<User> findByRegistrationDateAfter(Date date) {
+        return userRepository.findByRegistrationDateAfter(date);
     }
 }

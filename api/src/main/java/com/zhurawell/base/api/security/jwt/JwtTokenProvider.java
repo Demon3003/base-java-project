@@ -1,6 +1,12 @@
 package com.zhurawell.base.api.security.jwt;
 
-import io.jsonwebtoken.*;
+import com.zhurawell.base.api.exceptions.BaseException;
+import com.zhurawell.base.api.exceptions.ErrorCodes;
+import com.zhurawell.base.data.redis.client.user.UserRedisClient;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,9 +42,13 @@ public class JwtTokenProvider {
 
     private UserDetailsService userDetailsService;
 
+    private UserRedisClient userRedisClient;
+
+
     @Autowired
-    public JwtTokenProvider(UserDetailsService userDetailsService) {
+    public JwtTokenProvider(UserDetailsService userDetailsService, UserRedisClient redisClient) {
         this.userDetailsService = userDetailsService;
+        this.userRedisClient = redisClient;
     }
 
     @PostConstruct
@@ -84,6 +94,9 @@ public class JwtTokenProvider {
     }
 
     protected String validateToken(String token, String singKey) {
+        if (userRedisClient.isPresentInBlackList(token))
+            throw new BaseException(ErrorCodes.C_3000);
+
         try {
             Jwts.parser().setSigningKey(singKey).parseClaimsJws(token);
         } catch (ExpiredJwtException expiredEx) {

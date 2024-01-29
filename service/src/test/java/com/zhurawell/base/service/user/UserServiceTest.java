@@ -40,7 +40,7 @@ public class UserServiceTest {
 
     @Test
     public void test_save() {
-        assertThat(userServices.saveUser(new User(BigInteger.ONE))).isEqualTo(new User(BigInteger.ONE));
+        assertThat(userServices.createUser(new User(BigInteger.ONE))).isEqualTo(new User(BigInteger.ONE));
     }
 
 }
