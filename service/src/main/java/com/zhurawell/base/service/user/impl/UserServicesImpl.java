@@ -75,9 +75,13 @@ public class UserServicesImpl implements UserService {
         return userRepository.findByFirstNameLight(firstName);
     }
 
-    @Transactional
     public User findById(BigInteger id) {
         return userRepository.findById(id).get();
+    }
+
+    @Override
+    public User fetchFullById(BigInteger id) {
+        return userRepository.fetchFullById(id);
     }
 
     public User findByIdWithRole(BigInteger id) {

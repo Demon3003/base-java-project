@@ -11,6 +11,8 @@ public interface UserService {
 
     public User findById(BigInteger id);
 
+    public User fetchFullById(BigInteger id);
+
     public User createUser(User user);
 
     public User updateUser(User user);

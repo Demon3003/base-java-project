@@ -2,6 +2,7 @@ package com.zhurawell.base.api.security.config;
 
 
 import com.zhurawell.base.api.security.jwt.JwtConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtConfigurer jwtConfigurer;
 
+    @Autowired
     public SecurityConfiguration(JwtConfigurer jwtConfigurer, @Qualifier("commonUserDetailsService") UserDetailsService userDetailsService) {
         this.jwtConfigurer = jwtConfigurer;
         this.userDetailsService = userDetailsService;

@@ -24,13 +24,23 @@ public interface UserRepository extends JpaRepository<User, BigInteger>, UserExt
     Optional<User> findByEmail(String email);
 
     @EntityGraph(value = "g-user-role")
+    @QueryHints({
+            @QueryHint(name = HINT_CACHEABLE, value ="true"),
+            @QueryHint(name = HINT_CACHE_REGION, value = "user_findByEmailOrLogin")})
     Optional<User> findByEmailOrLogin(String email, String login);
+
+    @EntityGraph(value = "g-user-role")
+    @Query("select u from User u where u.id = ?1")
+    @QueryHints({
+            @QueryHint(name = HINT_CACHEABLE, value ="true"),
+            @QueryHint(name = HINT_CACHE_REGION, value = "user_fetchFullById")})
+    User fetchFullById(BigInteger id);
 
     User findByLogin(String login);
 
     @QueryHints({
             @QueryHint(name = HINT_CACHEABLE, value ="true"),
-            @QueryHint(name = HINT_CACHE_REGION, value = "user.findAllByFirstName")})
+            @QueryHint(name = HINT_CACHE_REGION, value = "user_findAllByFirstName")})
     @Query("select u from User u where u.firstName like ?1")
     List<User> findAllByFirstName(String firstName);
 

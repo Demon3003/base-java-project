@@ -2,8 +2,8 @@ package com.zhurawell.base.api.controllers.user;
 
 import com.zhurawell.base.api.converters.UserRestConverter;
 import com.zhurawell.base.api.dto.user.UserDto;
+import com.zhurawell.base.api.dto.user.UserDtoLight;
 import com.zhurawell.base.api.mappers.user.UserMapper;
-import com.zhurawell.base.data.model.user.User;
 import com.zhurawell.base.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,32 +44,32 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('sysadm')")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") BigInteger id) {
+    public ResponseEntity deleteUser(@PathVariable("id") BigInteger id) {
         userService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") BigInteger id) {
-        return ResponseEntity.ok(userMapper.entityToDto(userService.findById(id)));
+        return ResponseEntity.ok(userMapper.entityToDto(userService.fetchFullById(id)));
     }
 
     @GetMapping("/getByFirstName")
-    public ResponseEntity<List<UserDto>> findAllByFirstName(@RequestParam("firstName") String name) {
-        return ResponseEntity.ok(userMapper.entityListToDtoList(userService.findAllByFirstName(name)));
+    public ResponseEntity<List<UserDtoLight>> findAllByFirstName(@RequestParam("firstName") String name) {
+        return ResponseEntity.ok(userMapper.entityListToDtoListLight(userService.findAllByFirstName(name)));
     }
 
     /**
      * @see  UserRestConverter
      * */
     @GetMapping("/get/new/")
-    public ResponseEntity<UserDto> getUserNew(UserDto user) {
-        return ResponseEntity.ok(userMapper.entityToDto(userService.findByLogin(user.getLogin())));
+    public ResponseEntity<UserDtoLight> getUserNew(UserDto user) {
+        return ResponseEntity.ok(userMapper.entityToDtoLight(userService.findByLogin(user.getLogin())));
     }
 
     @GetMapping("/getAllActiveFrom/{date}")
-    public ResponseEntity<List<UserDto>> getUser(@PathVariable("date") Long activeFrom) {
-        return ResponseEntity.ok(userMapper.entityListToDtoList(
+    public ResponseEntity<List<UserDtoLight>> getUser(@PathVariable("date") Long activeFrom) {
+        return ResponseEntity.ok(userMapper.entityListToDtoListLight(
                 userService.findByRegistrationDateAfter(new Date(activeFrom))));
     }
 }

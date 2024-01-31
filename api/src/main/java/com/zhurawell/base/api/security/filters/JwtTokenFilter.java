@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class JwtTokenFilter implements Filter {
+public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Value("${jwt.header}")
     private String authorizationHeader;
@@ -29,8 +30,8 @@ public class JwtTokenFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String token = ((HttpServletRequest) servletRequest).getHeader(authorizationHeader);
+    protected void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        String token = servletRequest.getHeader(authorizationHeader);
         try {
             if (token != null) {
                 jwtTokenProvider.validateAccessToken(token);
@@ -40,11 +41,11 @@ public class JwtTokenFilter implements Filter {
         } catch (JwtAuthenticationException e) {
             log.error("Error during token processing", e);
             SecurityContextHolder.clearContext();
-            ((HttpServletResponse) servletResponse).sendError(e.getHttpStatus().value(), e.getMessage());
+            servletResponse.sendError(e.getHttpStatus().value(), e.getMessage());
         } catch (UsernameNotFoundException | BaseException e) {
             log.error("Error during token processing", e);
             SecurityContextHolder.clearContext();
-            ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            servletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

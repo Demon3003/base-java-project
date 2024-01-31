@@ -1,7 +1,7 @@
 singleServerConfig:
-  idleConnectionTimeout: 1000
-  connectTimeout: 1000
-  timeout: 300
+  idleConnectionTimeout: 10000
+  connectTimeout: 10000
+  timeout: 2000
   retryAttempts: 1
   retryInterval: 1500
   password: ${REDIS_PASSWORD}
