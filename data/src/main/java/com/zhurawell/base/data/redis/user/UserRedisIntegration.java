@@ -1,4 +1,4 @@
-package com.zhurawell.base.data.redis.client.user;
+package com.zhurawell.base.data.redis.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPooled;
 
 @Component
-public class UserRedisClient { // TODO handle connection exception redis.clients.jedis.exceptions.JedisConnectionException
+public class UserRedisIntegration { // TODO handle connection exception redis.clients.jedis.exceptions.JedisConnectionException
 
     @Autowired
     private JedisPooled jedis;

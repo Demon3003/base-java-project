@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/api/role")
 @PreAuthorize("hasAuthority('role:manager') or hasAuthority('sysadm')")
 public class RoleController {
 

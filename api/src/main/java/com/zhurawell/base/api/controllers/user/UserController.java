@@ -21,7 +21,7 @@ import java.util.List;
  * */
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @PreAuthorize("hasAuthority('user:manager') or hasAuthority('sysadm')")
 public class UserController {
 

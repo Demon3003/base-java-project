@@ -3,7 +3,7 @@ package com.zhurawell.base.api.controllers.authorization;
 import com.zhurawell.base.api.dto.jwt.JwtDetailsDto;
 import com.zhurawell.base.api.dto.user.UserDto;
 import com.zhurawell.base.api.security.jwt.JwtTokenProvider;
-import com.zhurawell.base.data.redis.client.user.UserRedisClient;
+import com.zhurawell.base.data.redis.user.UserRedisIntegration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -14,24 +14,24 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController
+@RestController("/api")
 public class AuthorizationController {
 
     private final AuthenticationManager authenticationManager;
 
     private JwtTokenProvider jwtTokenProvider;
 
-    private UserRedisClient userRedisClient;
+    private UserRedisIntegration userRedisIntegration;
 
     @Autowired
     public AuthorizationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
-                                   UserRedisClient userRedisClient) {
+                                   UserRedisIntegration userRedisIntegration) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.userRedisClient = userRedisClient;
+        this.userRedisIntegration = userRedisIntegration;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth")
     public ResponseEntity login(@RequestBody UserDto user) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword()));
         Pair<String, String> tokens = jwtTokenProvider.createAccessAndRefreshTokens(user.getLogin());
@@ -45,7 +45,7 @@ public class AuthorizationController {
     @PostMapping("/user/logout")
     public ResponseEntity logout(@RequestBody JwtDetailsDto details) {
         SecurityContextHolder.clearContext();
-        userRedisClient.addTokensToBlackList(details.getAccessToken(), details.getRefreshToken());
+        userRedisIntegration.addTokensToBlackList(details.getAccessToken(), details.getRefreshToken());
         return ResponseEntity.ok().build();
     }
 
