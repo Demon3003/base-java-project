@@ -1,4 +1,4 @@
-package com.zhurawell.base.ui.controller;
+package com.zhurawell.base.ui.security.controller;
 
 import com.zhurawell.base.api.security.jwt.JwtTokenProvider;
 import com.zhurawell.base.ui.model.LoginModel;
@@ -12,12 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.unbescape.html.HtmlEscape;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Locale;
 
 @Controller
 public class AuthController {
@@ -33,47 +31,22 @@ public class AuthController {
     @Value("${jwt.header}")
     private String authorizationHeader;
 
-    @RequestMapping("/")
-    public String root(Locale locale) {
-        return "redirect:/home";
-    }
-
     @PostMapping("/login")
     public String login(@ModelAttribute LoginModel loginModel, HttpServletResponse response) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginModel.getLogin(), loginModel.getPassword()));
         Pair<String, String> tokens = jwtTokenProvider.createAccessAndRefreshTokens(loginModel.getLogin());
         Cookie cookie = new Cookie(authorizationHeader, tokens.getFirst());
-        cookie.setMaxAge(Integer.MAX_VALUE);
+        cookie.setMaxAge(Integer.MAX_VALUE); //seconds
         response.addCookie(cookie);
         return "home";
     }
 
-
-    /** Simulation of an exception. */
-    @RequestMapping("/simulateError.html")
-    public void simulateError() {
-        throw new RuntimeException("This is a simulated error message");
-    }
-
     /** Error page. */
-    @RequestMapping("/error.html")
+    @RequestMapping("/login-error")
     public String error(HttpServletRequest request, Model model) {
-        model.addAttribute("errorCode", "Error " + request.getAttribute("javax.servlet.error.status_code"));
-        Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
-        StringBuilder errorMessage = new StringBuilder();
-        errorMessage.append("<ul>");
-        while (throwable != null) {
-            errorMessage.append("<li>").append(HtmlEscape.escapeHtml5(throwable.getMessage())).append("</li>");
-            throwable = throwable.getCause();
-        }
-        errorMessage.append("</ul>");
-        model.addAttribute("errorMessage", errorMessage.toString());
-        return "error";
+        model.addAttribute("errorMessage", "Bad credentials");
+        model.addAttribute("loginError", true);
+        return "login";
     }
 
-    /** Error page. */
-    @RequestMapping("/403.html")
-    public String forbidden() {
-        return "403";
-    }
 }

@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -41,13 +41,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
+                .formLogin()
+                .loginPage("/login.html")
+                .failureForwardUrl("/login-error")
+                .and()
+                .exceptionHandling().accessDeniedPage("/home")
+                .and()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need with token
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/refreshToken").permitAll()
-                        .antMatchers("/login.html").permitAll()
+                .antMatchers("/", "/login", "/home", "/login-error").permitAll()
+                .antMatchers("/api/auth").permitAll()
+                .antMatchers("/api/refreshToken").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -69,7 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     protected PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
 }

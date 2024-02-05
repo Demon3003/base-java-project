@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 @PreAuthorize("hasAuthority('user:manager') or hasAuthority('sysadm')")
-public class UserController {
+public class UserRestController {
 
     @Autowired
     private UserService userService;

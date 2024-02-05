@@ -14,7 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 public class AuthorizationController {
 
     private final AuthenticationManager authenticationManager;

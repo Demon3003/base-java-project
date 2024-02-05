@@ -4,27 +4,35 @@ import com.zhurawell.base.api.dto.user.UserDto;
 import com.zhurawell.base.api.dto.user.UserDtoLight;
 import com.zhurawell.base.data.model.user.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public abstract class UserMapper {
 
-    UserDto entityToDto(User user);
+    @Autowired
+    protected PasswordEncoder passwordEncoder;
 
-    User dtoToEntity(UserDto user);
+    public abstract UserDto entityToDto(User user);
 
-    List<UserDto> entityListToDtoList(List<User> entities);
+    @Mapping(target = "password",
+            expression = "java(user.getPassword() == null ? null : passwordEncoder.encode(user.getPassword()))")
+    public abstract User dtoToEntity(UserDto user);
 
-    List<User> dtoListToEntityList(List<UserDto> users);
+    public abstract List<UserDto> entityListToDtoList(List<User> entities);
 
-    UserDtoLight entityToDtoLight(User user);
+    public abstract List<User> dtoListToEntityList(List<UserDto> users);
 
-    User dtoToEntityLight(UserDtoLight user);
+    public abstract UserDtoLight entityToDtoLight(User user);
 
-    List<UserDtoLight> entityListToDtoListLight(List<User> entities);
+    public abstract User dtoToEntityLight(UserDtoLight user);
 
-    List<User> dtoListToEntityListLight(List<UserDtoLight> users);
+    public abstract List<UserDtoLight> entityListToDtoListLight(List<User> entities);
+
+    public abstract List<User> dtoListToEntityListLight(List<UserDtoLight> users);
 
 }
