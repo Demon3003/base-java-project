@@ -52,6 +52,8 @@ services:
       POSTGRES_DB: body_builder_db
     networks:
       - builder_app_net
+    ports:
+      - "5432:5432"
     volumes:
       - builder_db_v:/var/lib/postgresql/data
     healthcheck:

@@ -35,4 +35,5 @@ public class CommonErrorHandler {
         log.error("Error occurred", ex);
         return ResponseEntity.internalServerError().body(new ErrorDto(ErrorCodes.C_102.getCode(), ErrorCodes.C_102.getMessage()));
     }
+
 }

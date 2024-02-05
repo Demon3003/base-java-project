@@ -18,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -42,22 +43,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .formLogin()
-                .loginPage("/login.html")
-                .failureForwardUrl("/login-error")
-                .and()
-                .exceptionHandling().accessDeniedPage("/home")
-                .and()
+                .disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // don't need with token
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/login", "/home", "/login-error").permitAll()
+                .antMatchers("/", "/login", "/home", "/error").permitAll()
                 .antMatchers("/api/auth").permitAll()
                 .antMatchers("/api/refreshToken").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
+                .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint())
+                .and()
                 .apply(jwtConfigurer);
+    }
+
+    @Bean
+    public AuthenticationEntryPoint customAuthenticationEntryPoint() {
+        return new CustomHttp403ForbiddenEntryPoint();
     }
 
     @Bean
