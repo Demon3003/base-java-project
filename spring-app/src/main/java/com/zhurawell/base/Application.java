@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Slf4j
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {"com.zhurawell.base"})
-public class Application {
+public class Application { // TODO move dependencies' versions to "properties" section in POM files
 
 
 	@Autowired

@@ -62,6 +62,4 @@ public class CustomExceptionHandler {
         return this.errorCode.getMessageWithParams(this.params);
     }
 
-
-
 }

@@ -24,6 +24,8 @@ services:
       depends_on:
         redis:
           condition: service_healthy
+        builder-db:
+          condition: service_healthy
 
   redis:
     image: redis:7.2.3-alpine3.19
@@ -32,15 +34,35 @@ services:
       - redis_v:/data
     networks:
       - builder_app_net
+    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
       timeout: 30s
       retries: 3
 
+  builder-db:
+    image: postgres:15.5-alpine3.19
+    environment:
+      POSTGRES_HOST: builder-db
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: body_builder_db
+    networks:
+      - builder_app_net
+    ports:
+      - "5432:5432"
+    volumes:
+      - builder_db_v:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U dmytro_body_builder -d body_builder_db'" ]
+      interval: 5s
+      timeout: 30s
+      retries: 3
 volumes:
-  logs_app_prod_v:
+  logs_app_v:
   redis_v:
+  builder_db_v:
 
 networks:
   builder_app_net:
