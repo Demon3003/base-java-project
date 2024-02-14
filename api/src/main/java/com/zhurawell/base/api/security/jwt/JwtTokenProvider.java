@@ -1,6 +1,6 @@
 package com.zhurawell.base.api.security.jwt;
 
-import com.zhurawell.base.data.redis.user.UserRedisIntegration;
+import com.zhurawell.base.data.redis.user.UserRedisRepo;
 import com.zhurawell.base.service.exception.ErrorCodes;
 import com.zhurawell.base.service.exception.CustomExceptionHandler;
 import io.jsonwebtoken.Claims;
@@ -41,13 +41,13 @@ public class JwtTokenProvider {
 
     private UserDetailsService userDetailsService;
 
-    private UserRedisIntegration userRedisIntegration;
+    private UserRedisRepo userRedisRepo;
 
 
     @Autowired
-    public JwtTokenProvider(UserDetailsService userDetailsService, UserRedisIntegration redisClient) {
+    public JwtTokenProvider(UserDetailsService userDetailsService, UserRedisRepo redisClient) {
         this.userDetailsService = userDetailsService;
-        this.userRedisIntegration = redisClient;
+        this.userRedisRepo = redisClient;
     }
 
     @PostConstruct
@@ -93,7 +93,7 @@ public class JwtTokenProvider {
     }
 
     protected String validateToken(String token, String singKey) {
-        if (userRedisIntegration.isPresentInBlackList(token))
+        if (userRedisRepo.isPresentInBlackList(token))
             CustomExceptionHandler.getInstance().withErrorCode(ErrorCodes.C_300).buildAndThrow();
         try {
             Jwts.parser().setSigningKey(singKey).parseClaimsJws(token);

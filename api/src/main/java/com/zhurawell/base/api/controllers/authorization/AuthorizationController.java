@@ -3,7 +3,7 @@ package com.zhurawell.base.api.controllers.authorization;
 import com.zhurawell.base.api.dto.jwt.JwtDetailsDto;
 import com.zhurawell.base.api.dto.user.UserDto;
 import com.zhurawell.base.api.security.jwt.JwtTokenProvider;
-import com.zhurawell.base.data.redis.user.UserRedisIntegration;
+import com.zhurawell.base.data.redis.user.UserRedisRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -22,14 +22,14 @@ public class AuthorizationController {
 
     private JwtTokenProvider jwtTokenProvider;
 
-    private UserRedisIntegration userRedisIntegration;
+    private UserRedisRepo userRedisRepo;
 
     @Autowired
     public AuthorizationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider,
-                                   UserRedisIntegration userRedisIntegration) {
+                                   UserRedisRepo userRedisRepo) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.userRedisIntegration = userRedisIntegration;
+        this.userRedisRepo = userRedisRepo;
     }
 
     @PostMapping("/auth")
@@ -46,7 +46,7 @@ public class AuthorizationController {
     @PostMapping("/user/logout")
     public ResponseEntity logout(@RequestBody JwtDetailsDto details) {
         SecurityContextHolder.clearContext();
-        userRedisIntegration.addTokensToBlackList(details.getAccessToken(), details.getRefreshToken());
+        userRedisRepo.addTokensToBlackList(details.getAccessToken(), details.getRefreshToken());
         return ResponseEntity.ok().build();
     }
 

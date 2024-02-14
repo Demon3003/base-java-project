@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPooled;
 
 @Component
-public class UserRedisIntegration { // TODO handle connection exception redis.clients.jedis.exceptions.JedisConnectionException
+public class UserRedisRepo { // TODO handle connection exception redis.clients.jedis.exceptions.JedisConnectionException
 
     @Autowired
     private JedisPooled jedis;
