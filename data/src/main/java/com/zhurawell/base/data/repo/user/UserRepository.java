@@ -2,7 +2,7 @@ package com.zhurawell.base.data.repo.user;
 
 import com.zhurawell.base.data.model.user.DateAndImage;
 import com.zhurawell.base.data.model.user.User;
-import com.zhurawell.base.data.projection.user.UserLightView;
+import com.zhurawell.base.data.model.user.UserLightView;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

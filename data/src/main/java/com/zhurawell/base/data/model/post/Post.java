@@ -1,7 +1,6 @@
 package com.zhurawell.base.data.model.post;
 
 import com.zhurawell.base.data.model.user.User;
-import com.zhurawell.base.data.projection.post.PostLightExtended;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

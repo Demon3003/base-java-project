@@ -54,9 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint())
+                .apply(jwtConfigurer)
                 .and()
-                .apply(jwtConfigurer);
+                .exceptionHandling().authenticationEntryPoint(customAuthenticationEntryPoint());
     }
 
     @Bean

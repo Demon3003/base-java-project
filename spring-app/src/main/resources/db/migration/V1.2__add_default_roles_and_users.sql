@@ -43,5 +43,5 @@ insert into users(
     updated_at
 )
 values
-    (1, 'Dmytro', 'Zhurav', 'Zhurawell', '$2a$10$DTYpeWMC9MSvrFWCd/zaM.Pfdpu5kNC1QXLDZSLWL0cjcntv7hc.2', 'zhurawell@gmail.com', null, now(), 1, 2, now(), null),
-    (2, 'Test', 'User', 'Test', '$2a$10$DTYpeWMC9MSvrFWCd/zaM.Pfdpu5kNC1QXLDZSLWL0cjcntv7hc.2', 'tester@gmail.com', null, now(), 1, 1, now(), null);
+    (1, 'Dmytro', 'Zhurav', 'Zhurawell', '$2a$10$DTYpeWMC9MSvrFWCd/zaM.Pfdpu5kNC1QXLDZSLWL0cjcntv7hc.2', 'zhurawell@gmail.com', null, now(), 2, 2, now(), null),
+    (2, 'Test', 'User', 'Test', '$2a$10$DTYpeWMC9MSvrFWCd/zaM.Pfdpu5kNC1QXLDZSLWL0cjcntv7hc.2', 'tester@gmail.com', null, now(), 2, 1, now(), null);

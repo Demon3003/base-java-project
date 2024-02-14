@@ -1,4 +1,4 @@
-package com.zhurawell.base.data.projection.user;
+package com.zhurawell.base.data.model.user;
 
 import java.math.BigInteger;
 

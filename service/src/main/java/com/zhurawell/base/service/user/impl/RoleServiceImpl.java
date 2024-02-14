@@ -1,7 +1,7 @@
 package com.zhurawell.base.service.user.impl;
 
 import com.zhurawell.base.data.model.user.Role;
-import com.zhurawell.base.data.projection.user.RoleLightView;
+import com.zhurawell.base.data.model.user.RoleLightView;
 import com.zhurawell.base.service.user.RoleService;
 import com.zhurawell.base.data.model.user.Permission;
 import com.zhurawell.base.data.repo.user.PermissionRepository;

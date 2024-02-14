@@ -1,4 +1,4 @@
-package com.zhurawell.base.data.projection.post;
+package com.zhurawell.base.data.model.post;
 
 import java.math.BigInteger;
 

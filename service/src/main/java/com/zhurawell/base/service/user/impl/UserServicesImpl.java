@@ -1,7 +1,7 @@
 package com.zhurawell.base.service.user.impl;
 
 import com.zhurawell.base.data.model.user.User;
-import com.zhurawell.base.data.projection.user.UserLightView;
+import com.zhurawell.base.data.model.user.UserLightView;
 import com.zhurawell.base.data.repo.user.UserRepository;
 import com.zhurawell.base.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;

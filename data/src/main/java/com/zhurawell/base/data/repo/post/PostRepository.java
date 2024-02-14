@@ -2,8 +2,8 @@ package com.zhurawell.base.data.repo.post;
 
 import com.zhurawell.base.data.model.post.Post;
 import com.zhurawell.base.data.model.post.PostComment;
-import com.zhurawell.base.data.projection.post.PostLight;
-import com.zhurawell.base.data.projection.post.PostLightExtended;
+import com.zhurawell.base.data.model.post.PostLight;
+import com.zhurawell.base.data.model.post.PostLightExtended;
 import org.hibernate.jpa.QueryHints;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
