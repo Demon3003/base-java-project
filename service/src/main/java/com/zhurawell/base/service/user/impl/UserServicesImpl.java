@@ -3,10 +3,12 @@ package com.zhurawell.base.service.user.impl;
 import com.zhurawell.base.data.model.user.User;
 import com.zhurawell.base.data.model.user.UserLightView;
 import com.zhurawell.base.data.repo.user.UserRepository;
+import com.zhurawell.base.integration.kafka.service.user.UserBrokerIntService;
 import com.zhurawell.base.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,14 @@ public class UserServicesImpl implements UserService {
     @PersistenceContext
     EntityManager em;
 
+    @Autowired
+    @Qualifier("UserKafkaIntServiceImpl")
+    UserBrokerIntService userBroker;
+
     @Override
     @Transactional
     public User createUser(User user) {
+        userBroker.createUser(user);
         return userRepository.save(user);
     }
 

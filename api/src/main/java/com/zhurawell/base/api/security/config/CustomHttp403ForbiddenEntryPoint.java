@@ -19,7 +19,6 @@ public class CustomHttp403ForbiddenEntryPoint implements AuthenticationEntryPoin
     }
 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2) throws IOException {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
 
