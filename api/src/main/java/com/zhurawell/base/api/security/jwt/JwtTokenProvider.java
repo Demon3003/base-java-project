@@ -1,11 +1,16 @@
 package com.zhurawell.base.api.security.jwt;
 
-import io.jsonwebtoken.*;
+import com.zhurawell.base.data.redis.user.UserRedisRepo;
+import com.zhurawell.base.service.exception.ErrorCodes;
+import com.zhurawell.base.service.exception.CustomExceptionHandler;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,9 +41,13 @@ public class JwtTokenProvider {
 
     private UserDetailsService userDetailsService;
 
+    private UserRedisRepo userRedisRepo;
+
+
     @Autowired
-    public JwtTokenProvider(UserDetailsService userDetailsService) {
+    public JwtTokenProvider(UserDetailsService userDetailsService, UserRedisRepo redisClient) {
         this.userDetailsService = userDetailsService;
+        this.userRedisRepo = redisClient;
     }
 
     @PostConstruct
@@ -84,12 +93,14 @@ public class JwtTokenProvider {
     }
 
     protected String validateToken(String token, String singKey) {
+        if (userRedisRepo.isPresentInBlackList(token))
+            CustomExceptionHandler.getInstance().withErrorCode(ErrorCodes.C_300).buildAndThrow();
         try {
             Jwts.parser().setSigningKey(singKey).parseClaimsJws(token);
         } catch (ExpiredJwtException expiredEx) {
-            throw new JwtAuthenticationException("JWT token is expired", HttpStatus.UNAUTHORIZED);
+            CustomExceptionHandler.getInstance().withErrorCode(ErrorCodes.C_301).buildAndThrow();
         } catch (Exception ex) {
-            throw new JwtAuthenticationException("JWT token is invalid: " + token, ex, HttpStatus.UNAUTHORIZED);
+            CustomExceptionHandler.getInstance().withErrorCode(ErrorCodes.C_302).buildAndThrow();
         }
         return token;
     }

@@ -1,12 +1,14 @@
 package com.zhurawell.base.service.user.impl;
 
 import com.zhurawell.base.data.model.user.User;
-import com.zhurawell.base.data.projection.user.UserLightView;
+import com.zhurawell.base.data.model.user.UserLightView;
 import com.zhurawell.base.data.repo.user.UserRepository;
+import com.zhurawell.base.integration.kafka.service.user.UserBrokerIntService;
 import com.zhurawell.base.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigInteger;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,13 +30,25 @@ public class UserServicesImpl implements UserService {
     @PersistenceContext
     EntityManager em;
 
+    @Autowired
+    @Qualifier("UserKafkaIntServiceImpl")
+    UserBrokerIntService userBroker;
+
+    @Override
     @Transactional
-    public User saveUser(User user) {
+    public User createUser(User user) {
+        userBroker.createUser(user);
+        return userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User updateUser(User user) {
         return userRepository.save(user);
     }
 
     @Transactional
-    public List<User> saveAllUsers(List<User> users) {
+    public List<User> createUsers(List<User> users) {
         return userRepository.saveAll(users);
     }
 
@@ -44,9 +59,19 @@ public class UserServicesImpl implements UserService {
         return savedUsers;
     }
 
+    @Override
+    public void deleteById(BigInteger id) {
+        userRepository.deleteById(id);
+    }
+
     @Transactional
     public void deleteAllUsersBatched(List<User> users) {
         userRepository.deleteAllInBatch(users);
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 
     public List<User> findAllByFirstName(String firstName) {
@@ -61,6 +86,11 @@ public class UserServicesImpl implements UserService {
         return userRepository.findById(id).get();
     }
 
+    @Override
+    public User fetchFullById(BigInteger id) {
+        return userRepository.fetchFullById(id);
+    }
+
     public User findByIdWithRole(BigInteger id) {
         EntityGraph eg = em.createEntityGraph(User.class);
         eg.addAttributeNodes("role");
@@ -68,5 +98,10 @@ public class UserServicesImpl implements UserService {
                 "javax.persistence.loadgraph",
                 eg
         ));
+    }
+
+    @Override
+    public List<User> findByRegistrationDateAfter(Date date) {
+        return userRepository.findByRegistrationDateAfter(date);
     }
 }

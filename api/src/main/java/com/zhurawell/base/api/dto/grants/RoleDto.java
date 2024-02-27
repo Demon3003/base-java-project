@@ -1,42 +1,24 @@
 package com.zhurawell.base.api.dto.grants;
 
-import com.zhurawell.base.api.dto.BaseDto;
-import com.zhurawell.base.data.model.user.Role;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigInteger;
-import java.util.List;
+import java.util.Set;
 
-public class RoleDto extends BaseDto<Role> {
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class RoleDto {
 
-    public RoleDto(Role role) {
-        super(role);
-    }
+    private BigInteger id;
 
-    public RoleDto() {
-        super(new Role());
-    }
+    private String name;
 
-    public BigInteger getId() {
-        return getPojo().getId();
-    }
+    private Set<PermissionDto> permissions;
 
-    public void setId(BigInteger id) {
-        getPojo().setId(id);
-    }
-
-    public String getName() {
-        return getPojo().getName();
-    }
-
-    public void setName(String name) {
-        getPojo().setName(name);
-    }
-
-    public List<PermissionDto> getPermissions() {
-        return BaseDto.fromPojoCollection(this.getPojo().getPermissions(), PermissionDto.class);
-    }
-
-    public void setPermissions(List<PermissionDto> permissions) {
-        this.getPojo().addPermissions(BaseDto.toPojoCollection(permissions));
-    }
 }

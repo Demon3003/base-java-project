@@ -3,6 +3,7 @@ package com.zhurawell.base.data.model.user;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.math.BigInteger;
 @Getter
 @NoArgsConstructor
 @SequenceGenerator(name = "permission_generator", sequenceName = "permission_seq", schema = "public", allocationSize = 10)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region = "entity.permission")
 public class Permission implements GrantedAuthority {
 
     @Id

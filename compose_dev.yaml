@@ -1,59 +1,71 @@
 name:
-  base-app-project-dev
+  builder-dev
 
 services:
-  base-app-dev:
-    image: base-app-img:dev
+  body-builder-app:
+    image: body-builder-app:dev
     build:
       context: .
       target: dev
-    working_dir: /app
     volumes:
-      - logs_dev_v:/app/logs
-    networks:
-      - backend
+      - logs_app_v:/app/logs
     ports:
-      - "8087:8086"
-      - "8001:8000"
+      - "8080:8080"
+      - "8000:8000"
+    networks:
+      - builder_app_net
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db-dev/base-app
-      SPRING_DATASOURCE_USERNAME: dmytro
-    secrets:
-      - datasource_pass_dev
-    restart: unless-stopped
+      POSTGRES_URL: ${POSTGRES_URL-jdbc:postgresql://builder-db/body_builder_db}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    restart: always
     depends_on:
-      db-dev:
+      redis:
+        condition: service_healthy
+      builder-db:
         condition: service_healthy
 
-  db-dev:
-    image: base-app-db:dev
-    build:
-      context: .
-      target: base_app_db
-    networks:
-      - backend
-    environment:
-      POSTGRES_USER: dmytro
-    secrets:
-      - db_pass_dev
+  redis:
+    image: redis:7.2.3-alpine3.19
+    command: '--requirepass ${REDIS_PASSWORD}'
     volumes:
-      - database_dev_v:/var/lib/postgresql/data
+      - redis_v:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - builder_app_net
     healthcheck:
-      test: [ "CMD", "/usr/local/bin/pg_healthcheck" ]
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 5s
-      timeout: 3s
-      retries: 1
+      timeout: 30s
+      retries: 3
 
-
-networks:
-  backend:
+  builder-db:
+    image: postgres:15.5-alpine3.19
+    environment:
+      POSTGRES_HOST: builder-db
+      POSTGRES_USER: dmytro_body_builder
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: body_builder_db
+    networks:
+      - builder_app_net
+    ports:
+      - "5432:5432"
+    volumes:
+      - builder_db_v:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U dmytro_body_builder -d body_builder_db'" ]
+      interval: 5s
+      timeout: 30s
+      retries: 3
 
 volumes:
-  logs_dev_v:
-  database_dev_v:
+  logs_app_v:
+  redis_v:
+  builder_db_v:
 
-secrets:
-  db_pass_dev:
-    environment: "POSTGRES_PASSWORD"
-  datasource_pass_dev:
-    environment: "SPRING_DATASOURCE_PASSWORD"
+networks:
+  builder_app_net:

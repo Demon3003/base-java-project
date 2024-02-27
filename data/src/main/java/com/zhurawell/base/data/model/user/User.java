@@ -24,7 +24,7 @@ import java.util.Date;
 @NamedEntityGraph(name = "g-user-role", attributeNodes =
     @NamedAttributeNode(value = "role", subgraph = "sub-role-permission"),
     subgraphs = @NamedSubgraph(name = "sub-role-permission", attributeNodes = @NamedAttributeNode(value = "permissions")))
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "main.user")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "entity.user")
 public class User {
 
     @Id
@@ -45,8 +45,6 @@ public class User {
 
     private Date registrationDate;
 
-    private String token;
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -61,7 +59,6 @@ public class User {
     @Convert(converter = UserStatusConverter.class)
     private Status status;
 
-//    @Fetch(value = FetchMode.JOIN) // JOIN and SUBSELECT we use for EAGER  fetchType
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Role role;

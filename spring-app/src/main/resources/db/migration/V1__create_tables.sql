@@ -35,16 +35,14 @@ CREATE TABLE users
     first_name character varying(30) COLLATE pg_catalog."default",
     last_name character varying(40) COLLATE pg_catalog."default",
     login character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    password character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(200) COLLATE pg_catalog."default" NOT NULL,
     email character varying(40) COLLATE pg_catalog."default",
     image character varying(200) COLLATE pg_catalog."default",
     registration_date date DEFAULT now(),
-    status_id integer NOT NULL,
+    status_id integer NOT NULL default 1,
     role_id bigint NOT NULL,
-    token character varying(255) COLLATE pg_catalog."default",
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    data json,
     CONSTRAINT user_pkey PRIMARY KEY (id),
     CONSTRAINT user_role_fk FOREIGN KEY (role_id)
         REFERENCES public.role (id) MATCH SIMPLE

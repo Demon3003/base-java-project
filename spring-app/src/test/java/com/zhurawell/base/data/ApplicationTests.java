@@ -39,7 +39,7 @@ class ApplicationTests {
 		when(userRepository.save(any(User.class))).thenReturn(u);
 
 		//When
-		u = userService.saveUser(u);
+		u = userService.createUser(u);
 
 		//Then
 		assertThat(u.getId()).isEqualTo(1l);

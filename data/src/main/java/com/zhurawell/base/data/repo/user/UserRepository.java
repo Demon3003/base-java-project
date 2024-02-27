@@ -2,18 +2,19 @@ package com.zhurawell.base.data.repo.user;
 
 import com.zhurawell.base.data.model.user.DateAndImage;
 import com.zhurawell.base.data.model.user.User;
-import com.zhurawell.base.data.projection.user.UserLightView;
+import com.zhurawell.base.data.model.user.UserLightView;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import static org.hibernate.jpa.QueryHints.*;
 
 import javax.persistence.QueryHint;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static org.hibernate.jpa.QueryHints.HINT_CACHEABLE;
+import static org.hibernate.jpa.QueryHints.HINT_CACHE_REGION;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, BigInteger>, UserExtendedRepository {
@@ -23,13 +24,23 @@ public interface UserRepository extends JpaRepository<User, BigInteger>, UserExt
     Optional<User> findByEmail(String email);
 
     @EntityGraph(value = "g-user-role")
+    @QueryHints({
+            @QueryHint(name = HINT_CACHEABLE, value ="true"),
+            @QueryHint(name = HINT_CACHE_REGION, value = "user_findByEmailOrLogin")})
     Optional<User> findByEmailOrLogin(String email, String login);
 
-    Optional<User> findByLogin(String login);
+    @EntityGraph(value = "g-user-role")
+    @Query("select u from User u where u.id = ?1")
+    @QueryHints({
+            @QueryHint(name = HINT_CACHEABLE, value ="true"),
+            @QueryHint(name = HINT_CACHE_REGION, value = "user_fetchFullById")})
+    User fetchFullById(BigInteger id);
+
+    User findByLogin(String login);
 
     @QueryHints({
             @QueryHint(name = HINT_CACHEABLE, value ="true"),
-            @QueryHint(name = HINT_CACHE_REGION, value = "user.findByEmailOrLogin")})
+            @QueryHint(name = HINT_CACHE_REGION, value = "user_findAllByFirstName")})
     @Query("select u from User u where u.firstName like ?1")
     List<User> findAllByFirstName(String firstName);
 
