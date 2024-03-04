@@ -1,7 +1,7 @@
 package com.zhurawell.base.service.user.impl;
 
 import com.zhurawell.base.data.model.user.User;
-import com.zhurawell.base.data.model.user.UserLightView;
+import com.zhurawell.base.data.model.user.view.UserLightView;
 import com.zhurawell.base.data.repo.user.UserRepository;
 import com.zhurawell.base.integration.kafka.service.user.UserBrokerIntService;
 import com.zhurawell.base.service.user.UserService;

@@ -3,10 +3,10 @@ package com.zhurawell.base.service.user;
 import com.zhurawell.base.data.model.user.User;
 import com.zhurawell.base.data.repo.user.UserRepository;
 import com.zhurawell.base.integration.kafka.service.user.UserBrokerIntService;
+import com.zhurawell.base.integration.kafka.service.user.impl.UserKafkaIntServiceImpl;
 import com.zhurawell.base.service.user.impl.UserServicesImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,18 +19,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-
-@SpringBootTest(classes = {UserServicesImpl.class})
+@SpringBootTest(classes = {UserServicesImpl.class, UserBrokerIntService.class})
 public class UserServiceTest {
 
     @Autowired
-    @InjectMocks
     private UserService userServices;
 
     @MockBean
     private UserRepository userRepository;
 
-    @MockBean
+    @MockBean(name = "UserKafkaIntServiceImpl", classes = UserKafkaIntServiceImpl.class)
     private UserBrokerIntService userBrokerIntService;
 
     @MockBean
