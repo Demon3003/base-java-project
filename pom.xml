@@ -31,7 +31,7 @@
 	<modules>
 		<module>api</module>
 		<module>service</module>
-		<module>integration</module>
+<!--		<module>integration</module>-->
 		<module>data</module>
 		<module>spring-app</module>
 		<module>ui</module>

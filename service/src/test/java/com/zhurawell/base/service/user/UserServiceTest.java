@@ -2,8 +2,6 @@ package com.zhurawell.base.service.user;
 
 import com.zhurawell.base.data.model.user.User;
 import com.zhurawell.base.data.repo.user.UserRepository;
-import com.zhurawell.base.integration.kafka.service.user.UserBrokerIntService;
-import com.zhurawell.base.integration.kafka.service.user.impl.UserKafkaIntServiceImpl;
 import com.zhurawell.base.service.user.impl.UserServicesImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {UserServicesImpl.class, UserBrokerIntService.class})
+@SpringBootTest(classes = {UserServicesImpl.class})
 public class UserServiceTest {
 
     @Autowired
@@ -27,9 +25,6 @@ public class UserServiceTest {
 
     @MockBean
     private UserRepository userRepository;
-
-    @MockBean(name = "UserKafkaIntServiceImpl", classes = UserKafkaIntServiceImpl.class)
-    private UserBrokerIntService userBrokerIntService;
 
     @MockBean
     EntityManager em;
@@ -44,7 +39,14 @@ public class UserServiceTest {
 
     @Test
     public void test_save() {
-        assertThat(userServices.createUser(new User(BigInteger.ONE))).isEqualTo(new User(BigInteger.ONE));
+        //Given
+        User testUser = new User(BigInteger.ONE);
+
+        //When
+        User resultUser = userServices.createUser(testUser);
+
+        //Then
+        assertThat(testUser).isEqualTo(resultUser);
     }
 
 }

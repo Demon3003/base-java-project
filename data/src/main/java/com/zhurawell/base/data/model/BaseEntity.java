@@ -1,6 +1,5 @@
 package com.zhurawell.base.data.model;
 
-import com.zhurawell.base.data.model.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +24,7 @@ public class BaseEntity {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         BaseEntity entity = (BaseEntity) o;
 
-        return getId() != null && id.equals(entity.getId());
+        return getId() != null && getId().equals(entity.getId());
     }
 
     @Override
